@@ -1,52 +1,45 @@
 pipeline {
     agent any
-
     environment {
-        DOCKER_IMAGE_NAME = 'mytestimage'
+        DOCKER_IMAGE_NAME = 'calculator'
         GITHUB_REPO_URL = 'https://github.com/AbhishekRauthan909/Testing.git'
     }
-
     stages {
         stage('Checkout') {
             steps {
                 script {
-                    // Checkout the code from the GitHub repository
+                    // Checkout code from GitHub repository
                     git branch: 'main', url: "${GITHUB_REPO_URL}"
                 }
             }
         }
-
         stage('Build Docker Image') {
-            steps {
-                script {
-                    // Build Docker image
-                    docker.build("${DOCKER_IMAGE_NAME}", '.')
-                }
+             steps {
+                sh '/usr/local/bin/docker build -t calculator .'
             }
         }
-
         stage('Push Docker Images') {
             steps {
-                script{
+                script {
+                    // Tag and push Docker image to Docker Hub
                     docker.withRegistry('', 'DockerHubCred') {
-                    sh 'docker tag mytestimage abhishekrauthan2023106/mytestimage:latest'
-                    sh 'docker push abhishekrauthan2023106/mytestimage'
+                        sh "docker tag ${DOCKER_IMAGE_NAME} abhishekrauthan2023106/${DOCKER_IMAGE_NAME}:latest"
+                        sh "docker push abhishekrauthan2023106/${DOCKER_IMAGE_NAME}:latest"
                     }
-                 }
+                }
             }
         }
         stage('Run Ansible Playbook') {
             steps {
                 script {
+                    // Run Ansible playbook
                     ansiblePlaybook(
                         playbook: 'deploy.yml',
                         inventory: 'inventory'
-                     )
+                    )
                 }
             }
         }
-
-   
-
+        
     }
 }

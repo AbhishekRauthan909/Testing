@@ -21,6 +21,6 @@
       when: ansible_facts['os_family'] == "Debian"
       
     - name: Running container
-      shell: docker run -it -d --name calculator abhishekrauthan2023106/calculator
+      shell: docker run -it -d --name calculator calculator
       when: ansible_facts['os_family'] == "Debian"
 

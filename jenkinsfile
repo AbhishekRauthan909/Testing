@@ -14,7 +14,7 @@ pipeline {
             }
         }
         stage('Build Docker Image') {
-             steps {
+            steps {
                 sh '/usr/local/bin/docker build -t calculator .'
             }
         }
@@ -32,10 +32,10 @@ pipeline {
         stage('Run Ansible Playbook') {
             steps {
                 script {
-                    def ansibleCommand="/opt/homebrew/bin/ansible-playbook -i inventory deploy.yml"
+                    def ansibleCommand = "/opt/homebrew/bin/ansible-playbook -i inventory deploy.yml"
                     sh ansibleCommand
+                }
             }
         }
-        
     }
 }

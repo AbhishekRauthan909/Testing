@@ -32,12 +32,8 @@ pipeline {
         stage('Run Ansible Playbook') {
             steps {
                 script {
-                    // Run Ansible playbook
-                    ansiblePlaybook(
-                        playbook: 'deploy.yml',
-                        inventory: 'inventory'
-                    )
-                }
+                    def ansibleCommand="/opt/homebrew/bin/ansible-playbook -i inventory deploy.yml"
+                    sh ansibleCommand
             }
         }
         

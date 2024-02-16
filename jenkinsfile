@@ -24,7 +24,7 @@ pipeline {
                     // Tag and push Docker image to Docker Hub
                     docker.withRegistry('', 'DockerHubCred') {
                         sh "docker tag ${DOCKER_IMAGE_NAME} abhishekrauthan2023106/${DOCKER_IMAGE_NAME}:latest"
-                        sh "docker push abhishekrauthan2023106/${DOCKER_IMAGE_NAME}:latest"
+                        sh "docker push abhishekrauthan2023106/${DOCKER_IMAGE_NAME}"
                     }
                 }
             }
